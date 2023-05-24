@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ethereum Balance Checker</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative; 
+            margin-top: -250px; 
+        }
+        
+        .input-container {
+            margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 400px; 
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 100px;
+        }
+        
+        .result-container {
+            position: absolute; 
+            top: 100%; 
+            left: 0;
+            width: 100%;
+            margin-top: 20px;
+            margin-left: 40px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-left: -160px;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+        }
+        
+        .header-strip {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-strip">
+        <h1>Ethereum Wallet Balance And Transactions</h1>
+    </div>
+
+    <div class="container">
+        <h2>Enter Ethereum Address</h2>
+        <form action="/get_balance/" method="post">
+            {{ csrf_input }}
+            <div class="input-container">
+                <label for="address">Ethereum Address:</label>
+                <input type="text" name="address" minlength="42" maxlength="42" required>
+            </div>
+            <div class="input-container">
+                <input type="submit" value="FETCH">
+            </div>
+        </form>
+
+        {% if address %}
+        <div class="result-container">
+            <h3>Address: {{ address }}</h3>
+            <h3>Balance: {{ balance }} ETH</h3>
+            <h3>Last 5 Transactions:</h3>
+            <table>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.from }}</td>
+                    <td>{{ transaction.to }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
