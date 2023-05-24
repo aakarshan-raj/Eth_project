@@ -8,7 +8,7 @@ def home(request):
 def get_balance(request):
     if request.method == 'POST' and len(request.POST['address']) == 42:
         address = request.POST['address']
-        key = ""
+        key = "3EEF5VXKBGKR6CM84U62EXQD3XAWNYUUFM"
         api_url = f'https://api.etherscan.io/api?module=account&action=balance&address={address}&tag=latest&apikey={key}'
 
         response = requests.get(api_url)
